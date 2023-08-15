@@ -1,0 +1,205 @@
+.cal-container {
+    width: 320px;
+
+    .cal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+        height: 3rem;
+
+        .cal-header-title {
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            
+            &.rotate{
+                svg{
+                    transition: all 0.4s ease-in-out;
+                    transform: rotate(180deg);
+                }
+            }
+            
+            
+            &.rotatereverse{
+                svg{
+                    transition: all 0.4s ease-in-out;
+                    transform: rotate(0deg);
+                }
+            }
+            
+            
+        }
+
+        .cal-header-btn {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            margin-top: 7px;
+            padding-right: 0px;
+
+            button {
+                display: -webkit-inline-box;
+                display: -webkit-inline-flex;
+                display: -ms-inline-flexbox;
+                display: inline-flex;
+                -webkit-align-items: center;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                align-items: center;
+                -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                -webkit-justify-content: center;
+                justify-content: center;
+                position: relative;
+                box-sizing: border-box;
+                -webkit-tap-highlight-color: transparent;
+                background-color: transparent;
+                outline: 0;
+                border: 0;
+                margin: 0;
+                border-radius: 0;
+                padding: 0;
+                cursor: pointer;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                vertical-align: middle;
+                -webkit-text-decoration: none;
+                text-decoration: none;
+                color: inherit;
+                text-align: center;
+                -webkit-flex: 0 0 auto;
+                -ms-flex: 0 0 auto;
+                flex: 0 0 auto;
+                font-size: 1.5rem;
+                padding: 8px 11px;
+                border-radius: 50%;
+                overflow: visible;
+                
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.04);
+                }
+                
+            }
+        }
+    }
+
+    .cal-group {
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+
+        .cal-group-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            padding: 5px 0;
+
+            span {
+                text-align: center;
+                font-size: 0.75rem;
+                color: #616161;
+            }
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+         
+            .selected {
+                background-color: #1976d2;
+                color: #fff;
+                border-radius: 50%;
+            }
+
+            .calendar-cell {
+                display: inline-flex;
+                -webkit-box-align: center;
+                align-items: center;
+                -webkit-box-pack: center;
+                justify-content: center;
+                position: relative;
+                box-sizing: border-box;
+                -webkit-tap-highlight-color: transparent;
+                outline: 0px;
+                border: 0px;
+                cursor: pointer;
+                user-select: none;
+                vertical-align: middle;
+                appearance: none;
+                text-decoration: none;
+                font-family: Roboto, Helvetica, Arial, sans-serif;
+                font-weight: 400;
+                font-size: 0.75rem;
+                line-height: 1.66;
+                letter-spacing: 0.03333em;
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                padding: 0px;
+                background-color: transparent;
+                margin: 0px 2px;
+
+                &.selected {
+                    background-color: #1976d2;
+                    color: #fff;
+
+                    &:hover {
+                        will-change: background-color;
+                        background-color: #1565c0;
+                    }
+                }
+                
+                
+            }
+            .calendar-cell-null{
+                background-color: transparent;
+               border: none;
+            }
+            .calendar-cell:hover {
+                background-color: rgba(118, 180, 242, 0.226);
+            }
+        }
+        .fade{
+            animation: fade 0.5s ease-in-out;
+        }
+        @keyframes fade {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    }
+    .cal-years-group{
+        height: 215px;
+        overflow: scroll;
+        display: grid;
+        padding: 0 1rem;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        button{
+            background-color: transparent;
+            border: none;
+            height: 40px;
+            cursor: pointer;
+            border-radius: 24%;
+            
+            &.selected{
+                background-color: #1976d2;
+                color: #fff;
+                
+                &:hover{
+                    background-color: #1565c0;
+                }
+            }
+        }
+        .cal-year-cell:hover{
+            background-color: rgba(118, 180, 242, 0.226);
+        }
+    }
+}
