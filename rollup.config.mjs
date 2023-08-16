@@ -9,6 +9,7 @@ import packageJson from "./package.json" assert { type: "json" };
 export default [
   {
     input: "src/index.ts",
+    external: ['react', 'react-dom'],
     output: [
       {
         file: packageJson.main,
@@ -32,6 +33,6 @@ export default [
     input: "dist/esm/types/index.d.ts",
     output: [{ file: "dist/index.d.ts", format: "esm" }],
     plugins: [dts()],
-    external: [/\.css$/, /\.scss$/],
+    external: [/\.css$/, /\.scss$/, 'react', 'react-dom'],
   },
 ];
