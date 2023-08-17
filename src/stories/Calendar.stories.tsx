@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { StoryFn } from '@storybook/react';
 
 import Calendar from '../components/Calendar';
 
@@ -14,6 +13,16 @@ const meta: Meta<typeof Calendar> = {
         type: 'date',
       },
     },
+    darkMode: {
+      control: {
+        type: 'boolean',
+      }
+    },
+    readOnly: {
+      control: {
+        type: 'boolean',
+      }
+    },
   },
 };
 
@@ -23,15 +32,18 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    dateValue: new Date(),
+    darkMode: false,
+    readOnly: false,
   },
-  render: () => {
+  render: (args) => {
     const [dateValue, setDateValue] = useState(new Date());
     
     return (
-      <Calendar dateValue={dateValue} setDateValue={setDateValue} />
+      <Calendar 
+        dateValue={dateValue} 
+        setDateValue={setDateValue}
+        yearRange={[1900, 2000]}
+    />
     );
-    
-    
   },
 };

@@ -1,5 +1,5 @@
 {
-  "name": "calendary",
+  "name": "calendra",
   "version": "1.0.0",
   "description": "amazing calendar for your React app.",
   "main": "dist/cjs/index.js",
@@ -51,5 +51,6 @@
     "moment": "^2.29.4"
   },
   "author": "Jainex",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/Jainex17/Calendra.git" }
 }

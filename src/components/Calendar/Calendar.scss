@@ -108,13 +108,7 @@
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-         
-            .selected {
-                background-color: #1976d2;
-                color: #fff;
-                border-radius: 50%;
-            }
-
+            
             .calendar-cell {
                 display: inline-flex;
                 -webkit-box-align: center;
@@ -123,7 +117,6 @@
                 justify-content: center;
                 position: relative;
                 box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
                 outline: 0px;
                 border: 0px;
                 cursor: pointer;
@@ -131,7 +124,6 @@
                 vertical-align: middle;
                 appearance: none;
                 text-decoration: none;
-                font-family: Roboto, Helvetica, Arial, sans-serif;
                 font-weight: 400;
                 font-size: 0.75rem;
                 line-height: 1.66;
@@ -141,7 +133,7 @@
                 border-radius: 50%;
                 padding: 0px;
                 background-color: transparent;
-                margin: 0px 2px;
+                margin: 2px;
 
                 &.selected {
                     background-color: #1976d2;
@@ -151,6 +143,10 @@
                         will-change: background-color;
                         background-color: #1565c0;
                     }
+                }
+                &.today{
+                    background-color: greenyellow !important;
+                    color: black !important;
                 }
                 
                 
@@ -202,4 +198,25 @@
             background-color: rgba(118, 180, 242, 0.226);
         }
     }
+}
+
+.darkmode{
+    // background-color: #333333;
+    color: white;
+    .cal-group-header{
+        span{
+            color: white !important;
+        }
+    }
+    .cal-years-group{
+        button{
+            color: white;
+        }
+    }
+    .calendar-cell{
+        color: white;
+    }
+    
+    
+    
 }

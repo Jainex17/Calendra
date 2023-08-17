@@ -1,28 +1,39 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import './Calendar.scss';
-import { CalendarProps } from "./Calendar.types";
+import { CalendarProps, isValidYear } from "./Calendar.types";
 
 const Calendar: React.FC<CalendarProps> = ({
   dateValue,
   setDateValue,
+  darkMode = false,
+  readOnly = false,
+  yearRange,
 }: CalendarProps) => {
 
   const [animation, setAnimation] = useState('');
   const [yeardrawer, setYeardrawer] = useState(false);
+  const [darkModevalue, setDarkModevalue] = useState(darkMode);
 
-  const weekdaysShort = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+  const weekdaysShort = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
+  if (yearRange) {
+    if (!isValidYear(yearRange[0]) || !isValidYear(yearRange[1])) {
+      throw new Error('Invalid year range');
+    }
+  }
+  
   const handlePrevMonth = () => {
+    if (readOnly) return;
     setAnimation('fade');
 
     setDateValue(prevDateValue => {
       const year = prevDateValue.getFullYear();
       const month = prevDateValue.getMonth();
       const day = prevDateValue.getDate();
-    
+
       const prevMonthLastDay = new Date(year, month, 0).getDate();
-    
+
       let newDate;
       if (day > prevMonthLastDay) {
         newDate = new Date(year, month - 1, prevMonthLastDay);
@@ -31,11 +42,11 @@ const Calendar: React.FC<CalendarProps> = ({
         const newMonth = month === 0 ? 11 : month - 1;
         newDate = new Date(newYear, newMonth, day);
       }
-    
+
       return newDate;
     });
-    
-    
+
+
     let timer = setTimeout(() => {
       setAnimation('');
       clearTimeout(timer);
@@ -43,59 +54,59 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const handleNextMonth = () => {
+    if (readOnly) return;
     setAnimation('fade');
     setDateValue(prevDateValue => {
       const year = prevDateValue.getFullYear();
       const month = prevDateValue.getMonth();
       const day = prevDateValue.getDate();
-    
-      // Calculate the last day of the next month
+
       const nextMonthLastDay = new Date(year, month + 2, 0).getDate();
-    
+
       let newDate;
       if (day > nextMonthLastDay) {
-        // If the selected day is greater than the last day of the next month,
-        // set it to the last day of the next month
         newDate = new Date(year, month + 1, nextMonthLastDay);
       } else {
-        // Otherwise, proceed with the regular next month calculation
         const newYear = month === 11 ? year + 1 : year;
         const newMonth = (month + 1) % 12;
         newDate = new Date(newYear, newMonth, day);
       }
-    
+
       return newDate;
     });
-    
+
     let timer = setTimeout(() => {
       setAnimation('');
       clearTimeout(timer);
     }, 500);
   };
-  
-  
+
+
   const handleselectedDate = (day: number | null) => {
+    if (readOnly) return;
     if (day === null) return;
-    
+
     setDateValue(prevDateValue => {
       const newDate = new Date(prevDateValue.getFullYear(), prevDateValue.getMonth(), day);
       return newDate;
     });
-    
+
   };
 
   const handleSelectedYear = (yeardata: number | null) => {
+    if (readOnly) return;
     if (yeardata === null) return;
-    
+
     setDateValue(prevDateValue => {
       const newDate = new Date(yeardata, prevDateValue.getMonth(), prevDateValue.getDate());
       return newDate;
     });
-    
+
     setYeardrawer(false);
   }
-  
+
   const handleyearselecter = () => {
+    if (readOnly) return;
     if (yeardrawer) {
       setYeardrawer(false);
     } else {
@@ -104,58 +115,65 @@ const Calendar: React.FC<CalendarProps> = ({
   }
 
   const [yearsArray, setYearsArray] = useState<number[]>([]);
-  
+
   const getyearlist = () => {
-    const currentYear = new Date().getFullYear();
-  
-  for (let i = currentYear - 100; i <= currentYear + 99; i++) {
-    setYearsArray(prevYearsArray => [...prevYearsArray, i]);
+    if (yearRange) {
+      for (let i = yearRange[0]; i <= yearRange[1]; i++) {
+        setYearsArray(prevYearsArray => [...prevYearsArray, i]);
+      }
+    }
+    else {
+      const currentYear = new Date().getFullYear();
+      for (let i = currentYear - 50; i <= currentYear; i++) {
+        setYearsArray(prevYearsArray => [...prevYearsArray, i]);
+      }
+    }
   }
-}
-  useEffect(()=>{
+  useEffect(() => {
     getyearlist();
-  },[])
-  
-  const daysArray:any[]  = [];
-  
+  }, [])
+  const currdate = new Date();
+
+  const daysArray: any[] = [];
+
   const year = dateValue.getFullYear();
   const month = dateValue.getMonth();
 
   const firstDayOfMonth = moment(`${year}-${month + 1}-01`, 'YYYY-M-D');
   const daysInMonth = firstDayOfMonth.daysInMonth();
   const firstDayOfWeek = firstDayOfMonth.day();
-    
-  
-    for (let i = 0; i < firstDayOfWeek; i++) {
-      daysArray.push(null);
-    }
-  
-    for (let day = 1; day <= daysInMonth; day++) {
-      daysArray.push(day);
-    }
-  
-    const calendarRows: any[] = [];
-    let calendarRow: any[] = [];
-  
-    daysArray.forEach((day, index) => {
-      if (index > 0 && index % 7 === 0) {
-        calendarRows.push(calendarRow);
-        calendarRow = [];
-      }
-      calendarRow.push(day);
-    });
-  
-    if (calendarRow.length > 0) {
+
+
+  for (let i = 0; i < firstDayOfWeek; i++) {
+    daysArray.push(null);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    daysArray.push(day);
+  }
+
+  const calendarRows: any[] = [];
+  let calendarRow: any[] = [];
+
+  daysArray.forEach((day, index) => {
+    if (index > 0 && index % 7 === 0) {
       calendarRows.push(calendarRow);
-    }    
-  
-    
+      calendarRow = [];
+    }
+    calendarRow.push(day);
+  });
+
+  if (calendarRow.length > 0) {
+    calendarRows.push(calendarRow);
+  }
+
+
   return (
     <>
-      <div className="cal-container">
+      <div className={`cal-container ${darkModevalue && "darkmode"}`}>
         <div className="cal-header">
           <h3 className={`cal-header-title ${yeardrawer ? 'rotate' : 'rotatereverse'}`} onClick={handleyearselecter}>
-            {dateValue.toLocaleString('default', { month: 'short' })} {dateValue.getFullYear() }
+            {dateValue.toLocaleString('default', { month: 'short' })} {dateValue.getFullYear()}
             <svg
               focusable="false"
               aria-hidden="true"
@@ -199,7 +217,7 @@ const Calendar: React.FC<CalendarProps> = ({
               {yearsArray.map((yeardata, index) => (
                 <button
                   key={index}
-                  className={`${yeardata == null ? '' : 'cal-year-cell'} ${yeardata === dateValue.getFullYear() ? 'selected' : ''}`}
+                  className={`${yeardata !== null && 'cal-year-cell'} ${yeardata === dateValue.getFullYear() ? 'selected' : ''}`}
                   onClick={() => handleSelectedYear(yeardata)}
                 >
                   {yeardata}
@@ -218,12 +236,13 @@ const Calendar: React.FC<CalendarProps> = ({
               <div className='cal-group-days'>
                 <div className={`calendar-grid ${animation}`}>
                   {daysArray.map((day: any, index) => (
+                    // diffrent style for current date and selected date with button
                     <button
                       key={index}
-                      className={`${day == null ? 'calendar-cell-null' : 'calendar-cell'} ${day === dateValue.getDate() ? 'selected' : ''}`}
+                      className={`${day == null ? 'calendar-cell-null' : 'calendar-cell'} ${day === dateValue.getDate() ? 'selected' : ''}${day === currdate.getDate() && dateValue.getMonth() === currdate.getMonth() && dateValue.getFullYear() === currdate.getFullYear() && day !== dateValue.getDate() ? 'today' : ''}`}
                       onClick={() => handleselectedDate(day)}
                     >
-                      {day !== null ? day : ''}
+                      {day}
                     </button>
                   ))}
                 </div>
@@ -236,3 +255,8 @@ const Calendar: React.FC<CalendarProps> = ({
 };
 
 export default Calendar;
+
+Calendar.defaultProps = {
+  darkMode: false,
+  readOnly: false,
+};
