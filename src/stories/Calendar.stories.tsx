@@ -8,11 +8,6 @@ const meta: Meta<typeof Calendar> = {
   title: 'Calendar',
   component: Calendar,
   argTypes: {
-    dateValue: {
-      control: {
-        type: 'date',
-      },
-    },
     darkMode: {
       control: {
         type: 'boolean',
@@ -21,6 +16,11 @@ const meta: Meta<typeof Calendar> = {
     readOnly: {
       control: {
         type: 'boolean',
+      }
+    },
+    yearRange: {
+      control: {
+        type: 'array',
       }
     },
   },
@@ -34,16 +34,38 @@ export const Default: Story = {
   args: {
     darkMode: false,
     readOnly: false,
+    yearRange: [2000, 2021],
   },
-  render: (args) => {
+  render: ({darkMode , readOnly}) => {
     const [dateValue, setDateValue] = useState(new Date());
     
     return (
       <Calendar 
         dateValue={dateValue} 
         setDateValue={setDateValue}
-        yearRange={[1900, 2000]}
+        darkMode={darkMode}
+        readOnly={readOnly}
     />
     );
   },
+};
+
+export const ReadOnly: Story = {
+  args: {
+    darkMode: false,
+    readOnly: true,
+    yearRange: [2000, 2021],
+  },
+  render: ({darkMode , readOnly}) => {
+    const [dateValue, setDateValue] = useState(new Date());
+    
+    return (
+      <Calendar 
+        dateValue={dateValue} 
+        setDateValue={setDateValue}
+        darkMode={darkMode}
+        readOnly={readOnly}
+    />
+    );
+  }
 };

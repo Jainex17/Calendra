@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import moment from "moment";
 import './Calendar.scss';
 import { CalendarProps, isValidYear } from "./Calendar.types";
 
@@ -22,6 +21,10 @@ const Calendar: React.FC<CalendarProps> = ({
       throw new Error('Invalid year range');
     }
   }
+  
+  useEffect(() => {
+    setDarkModevalue(darkMode);
+  }, [darkMode])
   
   const handlePrevMonth = () => {
     if (readOnly) return;
@@ -139,10 +142,9 @@ const Calendar: React.FC<CalendarProps> = ({
   const year = dateValue.getFullYear();
   const month = dateValue.getMonth();
 
-  const firstDayOfMonth = moment(`${year}-${month + 1}-01`, 'YYYY-M-D');
-  const daysInMonth = firstDayOfMonth.daysInMonth();
-  const firstDayOfWeek = firstDayOfMonth.day();
-
+  const firstDayOfMonth = new Date(year, month, 1);
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDayOfWeek = firstDayOfMonth.getDay();  
 
   for (let i = 0; i < firstDayOfWeek; i++) {
     daysArray.push(null);
@@ -166,25 +168,28 @@ const Calendar: React.FC<CalendarProps> = ({
   if (calendarRow.length > 0) {
     calendarRows.push(calendarRow);
   }
-
-
+  
   return (
     <>
-      <div className={`cal-container ${darkModevalue && "darkmode"}`}>
+      <div className={`cal-container${darkModevalue ? " darkmode" : ''}`}>
         <div className="cal-header">
           <h3 className={`cal-header-title ${yeardrawer ? 'rotate' : 'rotatereverse'}`} onClick={handleyearselecter}>
             {dateValue.toLocaleString('default', { month: 'short' })} {dateValue.getFullYear()}
+            {!readOnly && (
             <svg
               focusable="false"
               aria-hidden="true"
               width="25"
               height="25"
-              fill='#616161'
+              fill={`${darkMode ? "white" : "#616161" }`}
               viewBox="0 0 24 24" data-testid="ArrowDropDownIcon">
               <path
-                stroke='#616161'
-                d="M7 10l5 5 5-5z"></path></svg>
+                stroke='none'
+                d="M7 10l5 5 5-5z"></path>
+              </svg>
+            )}
           </h3>
+          {yeardrawer || !readOnly && (
           <div className='cal-header-btn'>
             <button className="prev-month" onClick={handlePrevMonth}>
               <svg
@@ -194,7 +199,7 @@ const Calendar: React.FC<CalendarProps> = ({
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M7 11L1 6L7 1" stroke="#616161" strokeWidth="2" />
+                <path d="M7 11L1 6L7 1" stroke={`${darkMode ? "white" : "#616161" }`} strokeWidth="2" />
               </svg>
             </button>
             <button className="next-month" onClick={handleNextMonth}>
@@ -205,10 +210,11 @@ const Calendar: React.FC<CalendarProps> = ({
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M1 11L7 6L1 1" stroke="#616161" strokeWidth="2" />
+                <path d="M1 11L7 6L1 1" stroke={`${darkMode ? "white" : "#616161" }`} strokeWidth="2" />
               </svg>
             </button>
           </div>
+          )}
         </div>
 
         {

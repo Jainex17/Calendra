@@ -1,6 +1,7 @@
 .cal-container {
     width: 320px;
-
+    border-radius: 10px;
+    
     .cal-header {
         display: flex;
         justify-content: space-between;
@@ -14,6 +15,7 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            user-select: none;
             
             &.rotate{
                 svg{
@@ -102,6 +104,7 @@
                 text-align: center;
                 font-size: 0.75rem;
                 color: #616161;
+                user-select: none;
             }
         }
 
@@ -178,6 +181,7 @@
         padding: 0 1rem;
         grid-template-columns: repeat(4, 1fr);
         gap: 10px;
+        overflow-x: hidden;
         button{
             background-color: transparent;
             border: none;
@@ -201,7 +205,6 @@
 }
 
 .darkmode{
-    // background-color: #333333;
     color: white;
     .cal-group-header{
         span{
