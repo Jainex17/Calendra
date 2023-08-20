@@ -41,7 +41,8 @@
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sass-loader": "^13.3.2"
   },
   "author": "Jainex",
   "license": "MIT",
@@ -54,8 +55,5 @@
     "date-picker",
     "date",
     "react"
-  ],
-  "dependencies": {
-    "sass-loader": "^13.3.2"
-  }
+  ]
 }
