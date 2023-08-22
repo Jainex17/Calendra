@@ -1,7 +1,12 @@
 # calendra
 
 <div align="center">
-<img src="https://github.com/Jainex17/Calendra/assets/81921291/ac95064f-3e69-4e59-8d3a-c68f6e265790" />
+  <table>
+    <tr>
+      <td><img src="https://github.com/Jainex17/Calendra/assets/81921291/c88584d8-3e1b-4c30-8bde-059c4da8ad51" /></td>
+      <td><img src="https://github.com/Jainex17/Calendra/assets/81921291/1f73298a-30fc-4a4c-9afb-0d5dd39c757b" /></td>
+    </tr>
+  </table>
 </div>
 
 ## Props
