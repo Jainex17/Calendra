@@ -38,3 +38,25 @@ function App() {
   );
 }
 ```
+
+Here's an example of dark mode usage:
+
+```tsx
+import React, { useState } from 'react';
+import { Calendar } from 'calendra';
+
+function App() {
+  const [dateValue, setDateValue] = useState(new Date());
+  const [darkMode, setDarkMode] = useState(false);
+
+  return (
+    <>
+      <Calendar 
+          dateValue={dateValue} 
+          setDateValue={setDateValue} 
+          darkMode={darkMode}
+        />
+    </>
+  );
+}
+```
