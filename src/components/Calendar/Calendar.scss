@@ -19,7 +19,7 @@
             
             &.rotate{
                 svg{
-                    transition: all 0.4s ease-in-out;
+                    transition: transform 0.4s ease-in-out;
                     transform: rotate(180deg);
                 }
             }

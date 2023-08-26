@@ -1,6 +1,6 @@
 {
   "name": "calendra",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "amazing calendar for your React app.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -41,8 +41,7 @@
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "sass-loader": "^13.3.2"
+    "react-dom": "^18.2.0"
   },
   "author": "Jainex",
   "license": "MIT",

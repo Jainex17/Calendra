@@ -16,16 +16,6 @@ const Calendar: React.FC<CalendarProps> = ({
 
   const weekdaysShort = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
-  if (yearRange) {
-    if (!isValidYear(yearRange[0]) || !isValidYear(yearRange[1])) {
-      throw new Error('Invalid year range');
-    }
-  }
-  
-  useEffect(() => {
-    setDarkModevalue(darkMode);
-  }, [darkMode])
-  
   const handlePrevMonth = () => {
     if (readOnly) return;
     setAnimation('fade');
@@ -116,25 +106,41 @@ const Calendar: React.FC<CalendarProps> = ({
       setYeardrawer(true);
     }
   }
-
-  const [yearsArray, setYearsArray] = useState<number[]>([]);
-
-  const getyearlist = () => {
-    if (yearRange) {
-      for (let i = yearRange[0]; i <= yearRange[1]; i++) {
-        setYearsArray(prevYearsArray => [...prevYearsArray, i]);
-      }
+  
+  
+  function generateYearlyArray(startYear: number, endYear: number): number[] {
+    const years: number[] = [];
+    for (let year = startYear; year <= endYear; year++) {
+      years.push(year);
     }
-    else {
-      const currentYear = new Date().getFullYear();
-      for (let i = currentYear - 50; i <= currentYear; i++) {
-        setYearsArray(prevYearsArray => [...prevYearsArray, i]);
-      }
-    }
+    return years;
   }
+  
+  const [yearsArray, setYearsArray] = useState<number[]>([]);
+  
   useEffect(() => {
-    getyearlist();
-  }, [])
+    
+    if (yearRange && isValidYear(yearRange[0]) && isValidYear(yearRange[1])) {
+      const rangeStart = Math.min(yearRange[0], yearRange[1]);
+      const rangeEnd = Math.max(yearRange[0], yearRange[1]);
+      const tempArray = generateYearlyArray(rangeStart, rangeEnd);
+      
+      setYearsArray(tempArray);
+
+    } else {
+      const currentYear = new Date().getFullYear();
+      const tempArray = generateYearlyArray(currentYear - 50, currentYear);
+
+      setYearsArray(tempArray);
+    }
+  }, [yearRange]);
+
+    
+  useEffect(() => {
+    setDarkModevalue(darkMode);
+  }, [darkMode])
+  
+  
   const currdate = new Date();
 
   const daysArray: any[] = [];
@@ -220,7 +226,7 @@ const Calendar: React.FC<CalendarProps> = ({
         {
           yeardrawer ? (
             <div className='cal-years-group'>
-              {yearsArray.map((yeardata, index) => (
+              {yearsArray && yearsArray.map((yeardata, index) => (
                 <button
                   key={index}
                   className={`${yeardata !== null && 'cal-year-cell'} ${yeardata === dateValue.getFullYear() ? 'selected' : ''}`}
@@ -242,7 +248,7 @@ const Calendar: React.FC<CalendarProps> = ({
               <div className='cal-group-days'>
                 <div className={`calendar-grid ${animation}`}>
                   {daysArray.map((day: any, index) => (
-                    // diffrent style for current date and selected date with button
+                    
                     <button
                       key={index}
                       className={`${day == null ? 'calendar-cell-null' : 'calendar-cell'} ${day === dateValue.getDate() ? 'selected' : ''}${day === currdate.getDate() && dateValue.getMonth() === currdate.getMonth() && dateValue.getFullYear() === currdate.getFullYear() && day !== dateValue.getDate() ? 'today' : ''}`}

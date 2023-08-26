@@ -34,7 +34,6 @@ export const Default: Story = {
   args: {
     darkMode: false,
     readOnly: false,
-    yearRange: [2000, 2021],
   },
   render: ({darkMode , readOnly}) => {
     const [dateValue, setDateValue] = useState(new Date());
@@ -45,6 +44,7 @@ export const Default: Story = {
         setDateValue={setDateValue}
         darkMode={darkMode}
         readOnly={readOnly}
+        yearRange={[2000,2003]}
     />
     );
   },
@@ -54,9 +54,8 @@ export const ReadOnly: Story = {
   args: {
     darkMode: false,
     readOnly: true,
-    yearRange: [2000, 2021],
   },
-  render: ({darkMode , readOnly}) => {
+  render: ({darkMode , readOnly}) =>{
     const [dateValue, setDateValue] = useState(new Date());
     
     return (
